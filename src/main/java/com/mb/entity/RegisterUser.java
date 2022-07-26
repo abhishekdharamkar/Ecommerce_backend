@@ -15,10 +15,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import com.mb.audit.Auditable;
 
 @Entity
 @Table(name = "User_Registration")
-public class RegisterUser
+public class RegisterUser extends Auditable
 {
 
 	@Id
@@ -107,6 +108,17 @@ public class RegisterUser
 	public RegisterUser()
 	{
 		// TODO Auto-generated constructor stub
+	}
+
+	public RegisterUser(Long id, @NotEmpty @Size(min = 2, message = "Name contain atleast 2 character") String firstName, @NotEmpty @Size(min = 2, message = "Name contain atleast 2 character") String lastName, @NotEmpty @Email String email, @NotEmpty String password, Set<Role> role)
+	{
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.role = role;
 	}
 
 	@Override

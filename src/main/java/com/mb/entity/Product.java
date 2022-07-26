@@ -5,10 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import com.mb.audit.Auditable;
 
 @Entity
 @Table(name = "Product_List")
-public class Product
+public class Product extends Auditable
 {
 
 	@Id
@@ -85,7 +86,7 @@ public class Product
 		this.product_info = product_info;
 	}
 
-	Product()
+	public Product()
 	{
 
 	}

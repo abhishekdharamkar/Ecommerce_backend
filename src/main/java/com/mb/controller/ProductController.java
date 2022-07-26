@@ -38,14 +38,37 @@ public class ProductController
 		return listProducts;
 	}
 
-	// Create API to get details of a product.
-	@GetMapping("/product/search/getDetails/{name}")
-	public String getDetails(@PathVariable(name = "name") String name)
+	@GetMapping("product/filter/{min}/{max}")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public List<Product> filterByPrice(@PathVariable int min, @PathVariable int max)
 	{
-		System.out.println(name);
-		String n = productService.getDetails(name);
-		System.out.println(n);
-		return n;
+		return productService.filterByPrice(min, max);
+	}
+
+	// @GetMapping("/product/filter/ascPrice")
+	// public List<Product> AscPrice()
+	// {
+	//
+	// List<Product> listProducts = productService.AscPrice();
+	//
+	// return listProducts;
+	// }
+	//
+	// @GetMapping("/product/filter/ascPrice")
+	// public List<Product> DescPrice()
+	// {
+	//
+	// List<Product> listProducts = productService.DescPrice();
+	//
+	// return listProducts;
+	// }
+
+	// Create API to get details of a product.
+	@GetMapping("/product/search/getProductDetails")
+	public List<Product> getProductDetails()
+	{
+
+		return productService.getProductDetails();
 	}
 
 }

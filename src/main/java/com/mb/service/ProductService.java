@@ -10,5 +10,10 @@ public interface ProductService
 
 	public Product save(Product product);
 
-	public String getDetails(String Product);
+	public List<Product> getProductDetails();
+
+	public List<Product> filterByPrice(int max, int min);
+	// public List<Product> AscPrice();
+	//
+	// public List<Product> DescPrice();
 }

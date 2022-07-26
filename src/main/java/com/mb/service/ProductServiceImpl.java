@@ -17,7 +17,6 @@ public class ProductServiceImpl implements ProductService
 	{
 		if (keyword != null)
 		{
-			System.out.println("yes");
 			return productRepo.search(keyword);
 		}
 		return productRepo.findAll();
@@ -32,10 +31,27 @@ public class ProductServiceImpl implements ProductService
 	}
 
 	@Override
-	public String getDetails(String Product)
+	public List<Product> getProductDetails()
 	{
-		System.out.println(Product);
-		return productRepo.getDetails(Product);
+		return productRepo.findAll();
 	}
+
+	@Override
+	public List<Product> filterByPrice(int min, int max)
+	{
+		return productRepo.filterByPriceRange(min, max);
+	}
+	//
+	// @Override
+	// public List<Product> AscPrice()
+	// {
+	// return productRepo.AscPrice();
+	// }
+	//
+	// @Override
+	// public List<Product> DescPrice()
+	// {
+	// return productRepo.Price();
+	// }
 
 }
