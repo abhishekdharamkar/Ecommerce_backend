@@ -27,7 +27,7 @@ public class Cart
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)
-	private RegisterUser user;
+	private RegisterUser registerUser;
 
 	private Long quantity;
 
@@ -35,12 +35,12 @@ public class Cart
 	{
 	}
 
-	public Cart(Long id, Product product, RegisterUser user, Long quantity)
+	public Cart(Long id, Product product, RegisterUser registerUser, Long quantity)
 	{
 		super();
 		this.id = id;
 		this.product = product;
-		this.user = user;
+		this.registerUser = registerUser;
 		this.quantity = quantity;
 	}
 
@@ -56,7 +56,7 @@ public class Cart
 
 	public RegisterUser getUser()
 	{
-		return user;
+		return registerUser;
 	}
 
 	public Long getQuantity()
@@ -74,9 +74,9 @@ public class Cart
 		this.product = product;
 	}
 
-	public void setUser(RegisterUser user)
+	public void setUser(RegisterUser registerUser)
 	{
-		this.user = user;
+		this.registerUser = registerUser;
 	}
 
 	public void setQuantity(Long long1)
@@ -87,7 +87,7 @@ public class Cart
 	@Override
 	public String toString()
 	{
-		return "Cart [id=" + id + ", product=" + product + ", user=" + user + ", quantity=" + quantity + "]";
+		return "Cart [id=" + id + ", product=" + product + ", user=" + registerUser + ", quantity=" + quantity + "]";
 	}
 
 }

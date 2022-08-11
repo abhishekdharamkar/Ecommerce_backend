@@ -40,16 +40,12 @@ public class CartServiceImpl implements CartService
 		{
 			throw new CustomException("Product not found");
 		}
-		// if (cartRepository.existsByProductId(addToCartModel.getProductId()))
-		// {
-		// throw new CustomException("Product already in cart");
-		// }
 
 		Product product = optionalProduct.get();
 		System.out.println(optionalProduct.get().getId());
-		RegisterUser user = optionalUser.get();
+		RegisterUser registerUser = optionalUser.get();
 		Cart cart = new Cart();
-		cart.setUser(user);
+		cart.setUser(registerUser);
 		cart.setProduct(product);
 		cart.setQuantity(addToCartModel.getQuantity());
 		cartRepository.save(cart);

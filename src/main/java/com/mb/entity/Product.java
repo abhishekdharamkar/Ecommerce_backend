@@ -16,15 +16,15 @@ public class Product extends Auditable
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private String product_name;
+	private String productname;
 
-	private String product_category;
+	private String productcategory;
 
-	private String product_brand;
+	private String productbrand;
 
-	private String product_price;
+	private String productprice;
 
-	private String product_info;
+	private String productinfo;
 
 	public Long getId()
 	{
@@ -36,54 +36,54 @@ public class Product extends Auditable
 		this.id = id;
 	}
 
-	public String getProduct_name()
+	public String getProductname()
 	{
-		return product_name;
+		return productname;
 	}
 
-	public void setProduct_name(String product_name)
+	public void setProductname(String productname)
 	{
-		this.product_name = product_name;
+		this.productname = productname;
 	}
 
-	public String getProduct_category()
+	public String getProductcategory()
 	{
-		return product_category;
+		return productcategory;
 	}
 
-	public void setProduct_category(String product_category)
+	public void setProductcategory(String productcategory)
 	{
-		this.product_category = product_category;
+		this.productcategory = productcategory;
 	}
 
-	public String getProduct_brand()
+	public String getProductbrand()
 	{
-		return product_brand;
+		return productbrand;
 	}
 
-	public void setProduct_brand(String product_brand)
+	public void setProductbrand(String productbrand)
 	{
-		this.product_brand = product_brand;
+		this.productbrand = productbrand;
 	}
 
-	public String getProduct_price()
+	public String getProductprice()
 	{
-		return product_price;
+		return productprice;
 	}
 
-	public void setProduct_price(String product_price)
+	public void setProductprice(String productprice)
 	{
-		this.product_price = product_price;
+		this.productprice = productprice;
 	}
 
-	public String getProduct_info()
+	public String getProductinfo()
 	{
-		return product_info;
+		return productinfo;
 	}
 
-	public void setProduct_info(String product_info)
+	public void setProductinfo(String productinfo)
 	{
-		this.product_info = product_info;
+		this.productinfo = productinfo;
 	}
 
 	public Product()

@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-public class JwtRequest
+public class SignInModel
 {
 	@Email
 	@NotEmpty

@@ -8,7 +8,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
 
 	@Bean
-	public AuthTokenFilter authTokenFiltera()
+	public AuthTokenFilter authTokenFilter()
 	{
 		return new AuthTokenFilter();
 	}
@@ -49,20 +48,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 		// .sessionManagement()
 		// .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		// http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+		/*
+		 * http.cors().and().csrf().disable()
+		 * // .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+		 * // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+		 * .authorizeRequests()
+		 * .antMatchers("/employee/admin").hasRole("ADMIN")
+		 * .antMatchers("/employee/user").hasAnyRole("ADMIN","USER")
+		 * .antMatchers("/api/v1/login").permitAll()
+		 * .antMatchers("/all").permitAll()
+		 * .antMatchers("/api/v1/signup/admin").permitAll()
+		 * .antMatchers("/api/v1/signup/user").permitAll()
+		 * // .antMatchers("/api/v1/product/search/**").permitAll()
+		 * .anyRequest().authenticated();
+		 * http.addFilterBefore(authTokenFiltera(), UsernamePasswordAuthenticationFilter.class);
+		 */
 		http.cors().and().csrf().disable()
 				// .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeRequests()
-				// .antMatchers("/employee/admin").hasRole("ADMIN")
-				// .antMatchers("/employee/user").hasAnyRole("ADMIN","USER")
-
 				.antMatchers("/api/v1/login").permitAll()
-				.antMatchers("/all").permitAll()
+				.antMatchers("/swagger-ui/**").permitAll()
 				.antMatchers("/api/v1/signup/admin").permitAll()
-				.antMatchers("/api/v1/signup/user").permitAll();
-		// .antMatchers("/api/v1/product/search/**").permitAll()
-		// .anyRequest().authenticated();
-		http.addFilterBefore(authTokenFiltera(), UsernamePasswordAuthenticationFilter.class);
+				.antMatchers("/api/v1/signup/user").permitAll()
+				.anyRequest().authenticated();
+
+		http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 	}
 
@@ -75,16 +86,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 		return authProvider;
 	}
 
-	@Override
-	public void configure(WebSecurity web) throws Exception
-	{
-		web.ignoring().antMatchers("/v2/api-docs",
-				"/configuration/ui",
-				"/swagger-resources/**",
-				"/configuration/security",
-				"/swagger-ui.html",
-				"/webjars/**");
-	}
+	// @Override
+	// public void configure(WebSecurity web) throws Exception
+	// {
+	// web.ignoring().antMatchers("/v2/api-docs",
+	// "/configuration/ui",
+	// "/swagger-resources/**",
+	// "/configuration/security",
+	// "/swagger-ui.html",
+	// "/webjars/**");
+	// }
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)

@@ -14,7 +14,6 @@ public class CustomUserDetails implements UserDetails
 	private Long id;
 
 	private String email;
-
 	@JsonIgnore
 	private String password;
 
@@ -29,12 +28,12 @@ public class CustomUserDetails implements UserDetails
 		this.authorities = authorities;
 	}
 
-	public static CustomUserDetails build(RegisterUser user)
+	public static CustomUserDetails build(RegisterUser registerUser)
 	{
-		List<GrantedAuthority> authority = user.getRole().stream()
+		List<GrantedAuthority> authority = registerUser.getRole().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
 
-		return new CustomUserDetails(user.getId(), user.getEmail(), user.getPassword(), authority);
+		return new CustomUserDetails(registerUser.getId(), registerUser.getEmail(), registerUser.getPassword(), authority);
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.mb.entity.RegisterUser;
-import com.mb.model.JwtRequest;
+import com.mb.model.SignInModel;
+import com.mb.model.SignUpModel;
 import com.mb.response.SuccessResponse;
 import com.mb.service.RegisterUserService;
 import com.mb.utility.JwtUtil;
@@ -23,24 +23,20 @@ import com.mb.utility.JwtUtil;
 public class SignupController
 {
 	@Autowired
-	private JwtUtil jwtUtility;
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
 	private RegisterUserService registerUserservice;
 
 	@PostMapping("/signup/admin")
-	public ResponseEntity<SuccessResponse> registerNewAdmin(@RequestBody RegisterUser registerUser)
+	public ResponseEntity<SuccessResponse> registerNewAdmin(@RequestBody SignUpModel signUpModel)
 	{
 		SuccessResponse responseModel = SuccessResponse.getInstance();
-		responseModel.setData(registerUserservice.registerNewAdmin(registerUser));
+		responseModel.setData(registerUserservice.registerNewAdmin(signUpModel));
 		responseModel.setMessage("User Registered Successfully");
 		responseModel.setStatusCode(HttpStatus.OK.value());
 		return new ResponseEntity<SuccessResponse>(responseModel, HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping("/signup/user")
-	public ResponseEntity<SuccessResponse> registerNewUser(@RequestBody RegisterUser registerUser)
+	public ResponseEntity<SuccessResponse> registerNewUser(@RequestBody SignUpModel registerUser)
 	{
 		SuccessResponse responseModel = SuccessResponse.getInstance();
 		responseModel.setData(registerUserservice.registerNewUser(registerUser));
@@ -50,10 +46,10 @@ public class SignupController
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<SuccessResponse> signIn(@RequestBody JwtRequest jwtRequest)
+	public ResponseEntity<SuccessResponse> signIn(@RequestBody SignInModel signInModel)
 	{
 		SuccessResponse responseModel = SuccessResponse.getInstance();
-		responseModel.setData(registerUserservice.signIn(jwtRequest));
+		responseModel.setData(registerUserservice.signIn(signInModel));
 		responseModel.setMessage("User Login Successfully");
 		responseModel.setStatusCode(HttpStatus.OK.value());
 		return new ResponseEntity<SuccessResponse>(responseModel, HttpStatus.ACCEPTED);
@@ -73,9 +69,9 @@ public class SignupController
 	 * Create API to update the user email/mobile.
 	 */
 	@PutMapping("registerUser/{email}")
-	public RegisterUser UpdateUser(@PathVariable(name = "email") String email, @RequestBody RegisterUser user)
+	public RegisterUser UpdateUser(@PathVariable(name = "email") String email, @RequestBody RegisterUser registerUser)
 	{
 
-		return registerUserservice.updateUser(email, user);
+		return registerUserservice.updateUser(email, registerUser);
 	}
 }

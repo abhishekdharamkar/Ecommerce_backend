@@ -1,9 +1,11 @@
 package com.mb.service;
 
 import java.util.List;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mb.entity.Product;
+import com.mb.model.ProductModel;
 import com.mb.repository.ProductRepository;
 
 @Service
@@ -11,6 +13,9 @@ public class ProductServiceImpl implements ProductService
 {
 	@Autowired
 	private ProductRepository productRepo;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public List<Product> search(String keyword)
@@ -23,11 +28,11 @@ public class ProductServiceImpl implements ProductService
 	}
 
 	@Override
-	public Product save(Product product)
+	public Product save(ProductModel product)
 	{
-		System.out.println(product);
-
-		return productRepo.save(product);
+		Product p = new Product();
+		p = modelMapper.map(product, Product.class);
+		return productRepo.save(p);
 	}
 
 	@Override
@@ -41,17 +46,5 @@ public class ProductServiceImpl implements ProductService
 	{
 		return productRepo.filterByPriceRange(min, max);
 	}
-	//
-	// @Override
-	// public List<Product> AscPrice()
-	// {
-	// return productRepo.AscPrice();
-	// }
-	//
-	// @Override
-	// public List<Product> DescPrice()
-	// {
-	// return productRepo.Price();
-	// }
 
 }

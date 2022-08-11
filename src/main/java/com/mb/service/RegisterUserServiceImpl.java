@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +19,8 @@ import com.mb.entity.CustomUserDetails;
 import com.mb.entity.RegisterUser;
 import com.mb.entity.Role;
 import com.mb.exception.UserAllreadyExist;
-import com.mb.model.JwtRequest;
+import com.mb.model.SignInModel;
+import com.mb.model.SignUpModel;
 import com.mb.repository.RegisterUserRepo;
 import com.mb.repository.RoleRepository;
 import com.mb.utility.JwtUtil;
@@ -35,46 +37,51 @@ public class RegisterUserServiceImpl implements RegisterUserService
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private JwtUtil jwtUtil;
-
+	@Autowired
+	private ModelMapper modelMapper;
 	@Autowired
 	private RoleRepository rolerepository;
 
 	@Override
-	public RegisterUser registerNewAdmin(RegisterUser registerUser)
+	public RegisterUser registerNewAdmin(SignUpModel adminSignup)
 	{
-		if (userrepo.existsByEmail(registerUser.getEmail()))
+		if (userrepo.existsByEmail(adminSignup.getEmail()))
 		{
 			throw new UserAllreadyExist("Email Allready Exist in Database");
 		}
 		else
 		{
 			// 1--Admin ROle
-
+			RegisterUser user = new RegisterUser();
 			Role role = rolerepository.findById((long) 1).get();
 			Set<Role> roles = new HashSet<>();
 			roles.add(role);
-			registerUser.setRole(roles);
-			registerUser.setPassword(passwordEncoder.encode(registerUser.getPassword()));
-			return userrepo.save(registerUser);
+			user = modelMapper.map(adminSignup, RegisterUser.class);
+
+			user.setRole(roles);
+			user.setPassword(passwordEncoder.encode(adminSignup.getPassword()));
+			return userrepo.save(user);
 		}
 	}
 
-	public RegisterUser registerNewUser(RegisterUser registerUser)
+	@Override
+	public RegisterUser registerNewUser(SignUpModel userSignup)
 	{
-		if (userrepo.existsByEmail(registerUser.getEmail()))
+		if (userrepo.existsByEmail(userSignup.getEmail()))
 		{
 			throw new UserAllreadyExist("Email Allready Exist in Database");
 		}
 		else
 		{
 			// 2--User ROle
-
+			RegisterUser user = new RegisterUser();
 			Role role = rolerepository.findById((long) 2).get();
 			Set<Role> roles = new HashSet<>();
 			roles.add(role);
-			registerUser.setRole(roles);
-			registerUser.setPassword(passwordEncoder.encode(registerUser.getPassword()));
-			return userrepo.save(registerUser);
+			user = modelMapper.map(userSignup, RegisterUser.class);
+			user.setRole(roles);
+			user.setPassword(passwordEncoder.encode(userSignup.getPassword()));
+			return userrepo.save(user);
 		}
 	}
 
@@ -107,7 +114,7 @@ public class RegisterUserServiceImpl implements RegisterUserService
 
 	// logIn
 	@Override
-	public Object signIn(JwtRequest userLogin)
+	public Object signIn(SignInModel userLogin)
 	{
 		Map<String, Object> data = new HashMap<String, Object>();
 

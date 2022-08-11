@@ -1,7 +1,5 @@
 package com.mb.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,22 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController
 {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
-	@GetMapping("/all")
+	@GetMapping("/all") // all method
 	public String checkAllAccess()
 	{
 		return "All Access Area";
 	}
 
 	@GetMapping("/user")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER')") // no access // login
 	public String getUserAccess()
 	{
 		return "authenticated user Access Area";
 	}
 
-	@GetMapping("/admin")
+	@GetMapping("/admin") // no access
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String getAdminAccess()
 	{

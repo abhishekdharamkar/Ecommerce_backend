@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.mb.entity.Product;
+import com.mb.model.ProductModel;
 import com.mb.service.ProductService;
 
 @RestController
@@ -22,7 +23,7 @@ public class ProductController
 
 	@PostMapping("product/save")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Product saveProduct(@RequestBody Product product)
+	public Product saveProduct(@RequestBody ProductModel product)
 	{
 
 		return productService.save(product);
@@ -32,7 +33,6 @@ public class ProductController
 	@GetMapping("/product/search/{keyword}")
 	public List<Product> Search(@PathVariable(name = "keyword") String keyword)
 	{
-		System.out.println(keyword);
 		List<Product> listProducts = productService.search(keyword);
 
 		return listProducts;
@@ -45,25 +45,6 @@ public class ProductController
 		return productService.filterByPrice(min, max);
 	}
 
-	// @GetMapping("/product/filter/ascPrice")
-	// public List<Product> AscPrice()
-	// {
-	//
-	// List<Product> listProducts = productService.AscPrice();
-	//
-	// return listProducts;
-	// }
-	//
-	// @GetMapping("/product/filter/ascPrice")
-	// public List<Product> DescPrice()
-	// {
-	//
-	// List<Product> listProducts = productService.DescPrice();
-	//
-	// return listProducts;
-	// }
-
-	// Create API to get details of a product.
 	@GetMapping("/product/search/getProductDetails")
 	public List<Product> getProductDetails()
 	{
